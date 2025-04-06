@@ -92,7 +92,7 @@ export default function Home() {
     try {
       const response = await axios
         .get(
-          `http://api.openweathermap.org/geo/1.0/direct?q=${place}&limit=1&appid=${process.env.NEXT_PUBLIC_WEATHER_ORG_API_KEY}`
+          `https://api.openweathermap.org/geo/1.0/direct?q=${place}&limit=1&appid=${process.env.NEXT_PUBLIC_WEATHER_ORG_API_KEY}`
         )
         .then(async (res) => {
           setcoordinates(res.data[0].lat, res.data[0].lon);

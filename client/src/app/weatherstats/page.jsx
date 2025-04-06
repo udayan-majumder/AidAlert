@@ -249,6 +249,10 @@ function DetermineAqi(){
             fontWeight={500}
             color={["#fff200"]}
             opacity={0.8}
+            display={["flex"]}
+            justifyContent={["center"]}
+            alignItems={["center"]}
+            gap={2}
           >
             {
             allThreats.map((data)=>(

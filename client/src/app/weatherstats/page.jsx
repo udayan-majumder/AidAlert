@@ -48,13 +48,13 @@ const alllist= []
     }
 
     // Check weather conditions
-    if (weatherOrgApi?.weather[0]?.main === "Rain") {
+    if (weatherOrgApi?.weather?.[0]?.main === "Rain") {
       alllist.push("Heavy rainfall might occur!");
     }
-    if (weatherOrgApi?.weather[0]?.main === "Thunderstorm") {
+    if (weatherOrgApi?.weather?.[0]?.main === "Thunderstorm") {
       alllist.push("Heavy thunderstorm might occur!");
     }
-    if (weatherOrgApi?.weather[0]?.main === "Snow") {
+    if (weatherOrgApi?.weather?.[0]?.main === "Snow") {
       alllist.push("Heavy snowfall might occur!");
     }
 
@@ -64,7 +64,7 @@ const alllist= []
     }
 
     // Check air quality
-    if (loading && airQualityApi?.list[0]?.main?.aqi >= 3) {
+    if (loading && airQualityApi?.list?.[0]?.main?.aqi >= 3) {
       alllist.push("Extreme air pollution detected!");
     }
 

@@ -17,16 +17,17 @@ import toast,{ Toaster } from "react-hot-toast";
 import { redirect } from "next/navigation";
 
 export default function LoginComponent() {
-
+const [Username,setUsername] = useState('')
 const [UserEmail,setUserEmail] = useState('') 
 const [UserPassword,setUserPassWord] = useState('')
+const [UserRepassword,setUserRepassword] = useState('')
 
-
-async function LoginRequest(){
-if(UserEmail && UserPassword){
-  const UserLoginDetails = await axios.post(
-    `${process.env.NEXT_PUBLIC_SERVERURL}/user/login`,
+async function RegisterRequest(){
+if((UserEmail && Username)&&(UserPassword === UserRepassword)){
+  const UserRegisterDetails = await axios.post(
+    `${process.env.NEXT_PUBLIC_SERVERURL}/user/register`,
     {
+      username:Username,
       email: UserEmail,
       password: UserPassword,
     },{
@@ -34,18 +35,13 @@ if(UserEmail && UserPassword){
     }
   ).then((res)=>{
     console.log(res)
-    if(res.data.message==='Login successful'){
-      toast.success('Login Succesful')
+    if (res.data.message === "User registered successfully") {
+      toast.success("User registered successfully");
       setTimeout(() => {
-        return redirect('/')
+        return redirect("/auth/login");
       }, 2000);
-    }
-    else if(res.data.message === 'Invalid credentials'){
-      toast.error('Invalid credentials')
-    }
-    
-    else if(res.data.message === 'no user found'){
-      toast.error('no user found')
+    } else if (res.data.message === "User already exists") {
+      toast.error("User already exists");
     }
     
   })
@@ -123,6 +119,7 @@ if(UserEmail && UserPassword){
               }}
               borderRadius="md"
               height={["45px"]}
+              onChange={(e)=>{setUsername(e.target.value)}}
             ></Input>
           </InputGroup>
         </Box>
@@ -156,7 +153,7 @@ if(UserEmail && UserPassword){
               height={["45px"]}
               onChange={(e) => {
                 setUserEmail(e.target.value);
-                console.log(UserEmail);
+               
               }}
             />
           </InputGroup>{" "}
@@ -176,7 +173,7 @@ if(UserEmail && UserPassword){
             <PasswordInput
               onChange={(e) => {
                 setUserPassWord(e.target.value);
-                console.log(UserPassword);
+                
               }}
               placeholder="Password"
               bg="transparent"
@@ -208,8 +205,8 @@ if(UserEmail && UserPassword){
           >
             <PasswordInput
               onChange={(e) => {
-                setUserPassWord(e.target.value);
-                console.log(UserPassword);
+                setUserRepassword(e.target.value);
+                
               }}
               placeholder="Password"
               bg="transparent"
@@ -258,7 +255,7 @@ if(UserEmail && UserPassword){
             fontWeight="medium"
             fontSize={["20px"]}
             onClick={() => {
-              LoginRequest();
+              RegisterRequest();
             }}
           >
             Sign-Up

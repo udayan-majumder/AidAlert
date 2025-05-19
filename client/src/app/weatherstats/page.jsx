@@ -244,7 +244,7 @@ function DetermineAqi(){
           <Text
             height={["50%"]}
             fontFamily={["poppins"]}
-            fontSize={["15px"]}
+            fontSize={["10px","15px"]}
             borderBottom={["1px solid #DEDEDD"]}
             fontWeight={500}
             color={["#fff200"]}

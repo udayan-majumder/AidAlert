@@ -33,7 +33,7 @@ if((UserEmail && Username)&&(UserPassword === UserRepassword)){
       email: UserEmail,
       password: UserPassword,
       phoneno:UserPhoneno,
-      usertype:"Admin",
+      usertype:"User",
       address:UserAddress
     }
   ).then((res)=>{

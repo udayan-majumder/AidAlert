@@ -8,6 +8,7 @@ import useWeatherstore from "@/userstore/dataStore";
 import { Provider } from "@/components/ui/provider";
 import UserLocationDetails from "@/userstore/userlocation";
 import { redirect,usePathname} from "next/navigation";
+import UserDetails from "@/userstore/userinfoStore";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,11 +40,14 @@ export default function RootLayout({ children }) {
   } = useWeatherstore();
  
   const {coordinates,setcoordinates,setRefresh,Refresh} = UserLocationDetails();
-
+  const {UserInfo,Userloading,setUserInfo,setUserloading} = UserDetails()
 
  async function GetUserDetails() {
 
-  const CheckLoginStatus = await axios.get(`${process.env.NEXT_PUBLIC_SERVERURL}/user/userdetails`,{withCredentials:true})
+  const token = localStorage.getItem('token')
+  const CheckLoginStatus = await axios.post(`${process.env.NEXT_PUBLIC_SERVERURL}/user/userdetails`,{
+    'token':token
+  })
   .then((res)=>{
     console.log(res)
    if(res.data.message ==='UnAuthorized'){
@@ -52,6 +56,8 @@ export default function RootLayout({ children }) {
     }
    }
    else if(res.data.message=== 'Authorized'){
+    setUserInfo(res.data.Userinfo)
+    setUserloading(false)
     if(path.startsWith("/auth")){
        return redirect("/");
     }
@@ -201,7 +207,6 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         <script src="https://www.unpkg.com/olamaps-web-sdk@latest/dist/olamaps-web-sdk.umd.js"></script>
-        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} antialiased`}

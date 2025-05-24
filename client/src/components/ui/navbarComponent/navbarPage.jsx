@@ -1,3 +1,4 @@
+'use client'
 import { Box,Link} from "@chakra-ui/react";
 import { HandHeart, House, MessageCircleMore, Newspaper, User} from "lucide-react";
 
@@ -29,4 +30,6 @@ return (
 
 
 }
+
+
 

@@ -7,11 +7,8 @@ const registerRoute = require('./routes/registerRoute')
 const loginRoute = require('./routes/loginRoute')
 const userdetailsRoute = require('./routes/userdetailsRoute')
 const paymentRoute = require('./routes/paymentRoute')
-app.use(cors({
-    origin:`${process.env.FRONTEND_URL}`,
-    methods:['GET','POST'],
-    credentials:true
-}))
+
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())

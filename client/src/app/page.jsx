@@ -24,11 +24,13 @@ import {
   ArrowBigLeftDash,
   Search,
 } from "lucide-react";
-import { Navbar } from "@/components/ui/navbarComponent/navbarPage";
+import {Navbar} from "@/components/ui/navbarComponent/navbarPage";
 import WeatherStatsComponent from "./weatherstats/page";
 import UserLocationDetails from "@/userstore/userlocation";
 import axios from "axios";
 import toast,{Toaster} from "react-hot-toast";
+import UserDetails from "@/userstore/userinfoStore";
+import { redirect } from "next/navigation";
 export default function Home() {
   const [content, setContent] = useState();
   const [pageloading, setpageLoading] = useState(false);
@@ -48,7 +50,7 @@ export default function Home() {
   const { coordinates, setcoordinates, Refresh, setRefresh } =
     UserLocationDetails();
   const [place, setplace] = useState("");
-
+  const {UserInfo} = UserDetails()
   async function GetresPonse(content, ai) {
     const response = await ai.models.generateContent({
       model: "gemini-2.0-flash",
@@ -336,6 +338,10 @@ useEffect(() => {
     }
 
 }, [pageloading]);
+
+if(UserInfo?.Usertype === 'Admin'){
+  return redirect('/admin')
+}
 
   if (!pageloading) {
     return (

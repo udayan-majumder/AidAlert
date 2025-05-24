@@ -30,13 +30,12 @@ if(UserEmail && UserPassword){
     {
       email: UserEmail,
       password: UserPassword,
-    },{
-      withCredentials:true
     }
   ).then((res)=>{
     console.log(res)
     if(res.data.message==='Login successful'){
-      toast.success('Login Succesful')
+      toast.success('Login Successfull')
+      localStorage.setItem('token',res.data.token)
       setTimeout(() => {
         return redirect('/')
       }, 2000);

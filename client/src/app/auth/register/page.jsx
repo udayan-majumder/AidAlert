@@ -7,7 +7,7 @@ import {
   Input,
   Link,
   InputGroup} from "@chakra-ui/react";
-import { Mail, Lock, User} from 'lucide-react';
+import { Mail, Lock, User,PhoneCall,BookUser} from 'lucide-react';
 import {
   PasswordInput,
 } from "@/components/ui/password-input";
@@ -19,6 +19,8 @@ import { redirect } from "next/navigation";
 export default function LoginComponent() {
 const [Username,setUsername] = useState('')
 const [UserEmail,setUserEmail] = useState('') 
+const [UserPhoneno, setUserPhoneno] = useState("");
+const [UserAddress, setUserAddress] = useState("");
 const [UserPassword,setUserPassWord] = useState('')
 const [UserRepassword,setUserRepassword] = useState('')
 
@@ -30,8 +32,9 @@ if((UserEmail && Username)&&(UserPassword === UserRepassword)){
       username:Username,
       email: UserEmail,
       password: UserPassword,
-    },{
-      withCredentials:true
+      phoneno:UserPhoneno,
+      usertype:"Admin",
+      address:UserAddress
     }
   ).then((res)=>{
     console.log(res)
@@ -76,7 +79,7 @@ if((UserEmail && Username)&&(UserPassword === UserRepassword)){
       </Box>
 
       <Box
-        height={["70%"]}
+        height={["85%"]}
         width={["90%", "60%"]}
         display={["flex"]}
         flexDirection={["column"]}
@@ -98,12 +101,15 @@ if((UserEmail && Username)&&(UserPassword === UserRepassword)){
         </Box>
         <Box
           height={["10%"]}
-          width={["70%"]}
+          width={["90%", "70%"]}
           display={["flex"]}
           justifyContent={["center"]}
           alignItems={["center"]}
         >
-          <InputGroup width={["90%", "60%"]} startElement={<User color={"#000"}/>}>
+          <InputGroup
+            width={["90%", "60%"]}
+            startElement={<User color={"#000"} />}
+          >
             <Input
               placeholder="Full Name"
               // _icon={<Mail/>}
@@ -119,14 +125,15 @@ if((UserEmail && Username)&&(UserPassword === UserRepassword)){
               }}
               borderRadius="md"
               height={["45px"]}
-              onChange={(e)=>{setUsername(e.target.value)}}
+              onChange={(e) => {
+                setUsername(e.target.value);
+              }}
             ></Input>
           </InputGroup>
         </Box>
-
         <Box
           height={["10%"]}
-          width={["70%"]}
+          width={["90%", "70%"]}
           display={["flex"]}
           justifyContent={["center"]}
           alignItems={["center"]}
@@ -153,15 +160,79 @@ if((UserEmail && Username)&&(UserPassword === UserRepassword)){
               height={["45px"]}
               onChange={(e) => {
                 setUserEmail(e.target.value);
-               
               }}
             />
           </InputGroup>{" "}
         </Box>
-
         <Box
           height={["10%"]}
-          width={["70%"]}
+          width={["90%", "70%"]}
+          display={["flex"]}
+          justifyContent={["center"]}
+          alignItems={["center"]}
+        >
+          {" "}
+          <InputGroup
+            startElement={<PhoneCall color="black" />}
+            width={["90%", "60%"]}
+          >
+            <Input
+              placeholder="Phone No"
+              // _icon={<Mail/>}
+              variant="outline"
+              bg="transparent"
+              color="white"
+              bgColor={[["#A9A9A9"]]}
+              _placeholder={{ color: "whiteAlpha.700" }}
+              _hover={{ borderColor: "whiteAlpha.800" }}
+              _focus={{
+                borderColor: "white",
+                boxShadow: "0 0 0 1px white",
+              }}
+              borderRadius="md"
+              height={["45px"]}
+              onChange={(e) => {
+                setUserPhoneno(e.target.value);
+              }}
+            />
+          </InputGroup>{" "}
+        </Box>
+        <Box
+          height={["10%"]}
+          width={["90%", "70%"]}
+          display={["flex"]}
+          justifyContent={["center"]}
+          alignItems={["center"]}
+        >
+          {" "}
+          <InputGroup
+            startElement={<BookUser color="black" />}
+            width={["90%", "60%"]}
+          >
+            <Input
+              placeholder="Address"
+              // _icon={<Mail/>}
+              variant="outline"
+              bg="transparent"
+              color="white"
+              bgColor={[["#A9A9A9"]]}
+              _placeholder={{ color: "whiteAlpha.700" }}
+              _hover={{ borderColor: "whiteAlpha.800" }}
+              _focus={{
+                borderColor: "white",
+                boxShadow: "0 0 0 1px white",
+              }}
+              borderRadius="md"
+              height={["45px"]}
+              onChange={(e) => {
+                setUserAddress(e.target.value);
+              }}
+            />
+          </InputGroup>{" "}
+        </Box>
+        <Box
+          height={["10%"]}
+          width={["90%", "70%"]}
           display={["flex"]}
           justifyContent={["center"]}
           alignItems={["center"]}
@@ -173,7 +244,6 @@ if((UserEmail && Username)&&(UserPassword === UserRepassword)){
             <PasswordInput
               onChange={(e) => {
                 setUserPassWord(e.target.value);
-                
               }}
               placeholder="Password"
               bg="transparent"
@@ -194,7 +264,7 @@ if((UserEmail && Username)&&(UserPassword === UserRepassword)){
         </Box>
         <Box
           height={["10%"]}
-          width={["70%"]}
+          width={["90%", "70%"]}
           display={["flex"]}
           justifyContent={["center"]}
           alignItems={["center"]}
@@ -206,7 +276,6 @@ if((UserEmail && Username)&&(UserPassword === UserRepassword)){
             <PasswordInput
               onChange={(e) => {
                 setUserRepassword(e.target.value);
-                
               }}
               placeholder="Password"
               bg="transparent"

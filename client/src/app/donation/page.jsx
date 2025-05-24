@@ -4,6 +4,7 @@ import { Navbar } from '@/components/ui/navbarComponent/navbarPage'
 import React, { useState } from "react";
 import Razorpay from 'razorpay';
 import axios from 'axios';
+import Script from 'next/script';
 function DonationComponent(){
 
   const [isOn, setIsOn] = useState(false);
@@ -71,6 +72,7 @@ return (
     backgroundSize={["cover"]}
     bgColor={["#2A2A2C"]}
   >
+    <Script src="https://checkout.razorpay.com/v1/checkout.js"></Script>
     <Box
       height={["10%"]}
       width={["100%"]}

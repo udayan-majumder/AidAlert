@@ -16,12 +16,12 @@ import axios from "axios";
 import {useState} from "react";
 import toast,{ Toaster } from "react-hot-toast";
 import { redirect } from "next/navigation";
-
+import UserDetails from "@/userstore/userinfoStore";
 export default function LoginComponent() {
 
 const [UserEmail,setUserEmail] = useState('') 
 const [UserPassword,setUserPassWord] = useState('')
-
+const {setUserInfo,setUserloading} = UserDetails()
 
 async function LoginRequest(){
 if(UserEmail && UserPassword){
@@ -36,7 +36,9 @@ if(UserEmail && UserPassword){
     if(res.data.message==='Login successful'){
       toast.success('Login Successfull')
       localStorage.setItem('token',res.data.token)
+      setUserInfo(res.data.userinfo)
       setTimeout(() => {
+        setUserloading(false)
         return redirect('/')
       }, 2000);
     }

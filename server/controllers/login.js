@@ -17,11 +17,8 @@ const UserLogin = async(req,res)=>{
         if(!isPasswordValid) {
             return res.json({ message: 'Invalid credentials' });
         }
-        const token = jwt.sign({ Id: user.id ,Email:user.email,Username:user.username,Phoneno:user.phoneno,Usertype:user.usertype,Useraddress:user.address}, process.env.JWT_SECRET, { expiresIn: '1h' });
-        return res.cookie('token', token, {
-            secure: true,
-            sameSite: "none"
-        }).json({ message: 'Login successful', token });
+        const token = jwt.sign({ Id: user.id ,Email:user.email,Username:user.username,Phoneno:user.phoneno,Usertype:user.usertype,Useraddress:user.address}, process.env.JWT_SECRET);
+        return res.json({ message: 'Login successful', token ,"userinfo":{ "userId": user.id ,"userEmail":user.email,"Username":user.username,"Phoneno":user.phoneno,"Usertype":user.usertype,"Useraddress":user.address}});
 
     } catch (error) {
         console.error(error);

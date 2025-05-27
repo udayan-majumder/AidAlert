@@ -30,7 +30,7 @@ import UserLocationDetails from "@/userstore/userlocation";
 import axios from "axios";
 import toast,{Toaster} from "react-hot-toast";
 import UserDetails from "@/userstore/userinfoStore";
-import { redirect } from "next/navigation";
+import { redirect,useRouter } from "next/navigation";
 export default function Home() {
   const [content, setContent] = useState();
   const [pageloading, setpageLoading] = useState(false);
@@ -50,7 +50,10 @@ export default function Home() {
   const { coordinates, setcoordinates, Refresh, setRefresh } =
     UserLocationDetails();
   const [place, setplace] = useState("");
-  const {UserInfo} = UserDetails()
+  const {UserInfo,Userloading} = UserDetails()
+  const router = useRouter()
+
+
   async function GetresPonse(content, ai) {
     const response = await ai.models.generateContent({
       model: "gemini-2.0-flash",
@@ -89,6 +92,20 @@ export default function Home() {
    
   }
   //search
+
+
+
+useEffect(()=>{
+    if (!Userloading){
+      if (UserInfo?.Usertype === "Admin") {
+        return router.push("/admin");
+      }
+      if (UserInfo?.Usertype === "Ngo") {
+        return router.push("/ngopanel");
+      }
+    }
+},[UserInfo,Userloading])
+   
   async function SearchPlace() {
     setpageLoading(false);
     try {
@@ -235,9 +252,10 @@ export default function Home() {
         });
         if (geminiResponse) {
           console.log(geminiResponse);
-          if(!pageloading){
+          if (!pageloading) {
             setpageLoading(true);
           }
+          
         }
       }
     }
@@ -339,9 +357,8 @@ useEffect(() => {
 
 }, [pageloading]);
 
-if(UserInfo?.Usertype === 'Admin'){
-  return redirect('/admin')
-}
+
+
 
   if (!pageloading) {
     return (

@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import useWeatherstore from "@/userstore/dataStore";
 import { Provider } from "@/components/ui/provider";
 import UserLocationDetails from "@/userstore/userlocation";
-import { redirect,usePathname} from "next/navigation";
+import { useRouter,redirect,usePathname} from "next/navigation";
 import UserDetails from "@/userstore/userinfoStore";
 
 const geistSans = Geist({
@@ -29,6 +29,7 @@ const poppins = Poppins({
 
 export default function RootLayout({ children }) {
   const path = usePathname()
+  const router = useRouter()
   const {
     setWeatherOrgApi,
     setopenMeteoApi,
@@ -43,27 +44,29 @@ export default function RootLayout({ children }) {
   const {UserInfo,Userloading,setUserInfo,setUserloading} = UserDetails()
 
  async function GetUserDetails() {
-
+  try{
   const token = localStorage.getItem('token')
   const CheckLoginStatus = await axios.post(`${process.env.NEXT_PUBLIC_SERVERURL}/user/userdetails`,{
     'token':token
   })
-  .then((res)=>{
-    console.log(res)
-   if(res.data.message ==='UnAuthorized'){
-    if(!path.startsWith('/auth')){
-     return redirect("/auth");
+
+      if(CheckLoginStatus.data.message ==='UnAuthorized'){
+        if(!path.startsWith('/auth')){
+         return router.push("/auth");
+        }
+       }
+       else if(CheckLoginStatus.data.message === 'Authorized'){
+        setUserInfo(CheckLoginStatus?.data?.Userinfo)
+       if(path.startsWith("/auth")){
+           return router.push("/");
+        }
+       }
+    }catch(err){
+      console.log(err)
+    }finally{
+      if(Userloading)
+      setUserloading(false);
     }
-   }
-   else if(res.data.message=== 'Authorized'){
-    setUserInfo(res.data.Userinfo)
-    setUserloading(false)
-    if(path.startsWith("/auth")){
-       return redirect("/");
-    }
-   
-   }
-  })
   
 
  }

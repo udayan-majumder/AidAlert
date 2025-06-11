@@ -211,7 +211,7 @@ export default function RootLayout({ children }) {
     });
     const response = await ai.models.generateContent({
       model: "gemini-2.0-flash",
-      contents: `Analyze the following risk data and provide location-wise averages and identify the most at-risk areas in JSON format dont use any dummy data show only the location mentioned in the given data:
+      contents: `Analyze the following risk data and provide location-wise averages and identify the most at-risk areas in JSON format dont use any dummy data show only the location mentioned in the given data dont provide anything called null:
 
         example: {
   "average_risk_by_location": {

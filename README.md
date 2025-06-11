@@ -2,8 +2,8 @@
 
 **Empowering Rapid Disaster Response, Saving Lives Instantly**
 
-![GitHub stars](https://img.shields.io/github/stars/udayan-majumder/AidAlert?style=social)
-![License](https://img.shields.io/github/license/udayan-majumder/AidAlert)
+![GitHub stars](https://img.shields.io/github/stars/udayan-majumder/AidAlert?style=social)  
+![License](https://img.shields.io/github/license/udayan-majumder/AidAlert)  
 ![Issues](https://img.shields.io/github/issues/udayan-majumder/AidAlert)
 
 Built with the tools and technologies:
@@ -27,6 +27,7 @@ Built with the tools and technologies:
   - [Installation](#installation)
 - [Usage](#usage)
 - [Testing](#testing)
+- [Test Credentials](#test-credentials)
 
 ---
 
@@ -52,16 +53,62 @@ This project empowers developers to build feature-rich, maintainable application
 
 This project requires the following dependencies:
 
-- **Programming Language**: JavaScript
+- **Programming Language**: JavaScript  
 - **Package Manager**: npm
 
 ---
 
 ### Installation
 
-Build AidAlert from the source and install dependencies:
+```bash
+git clone https://github.com/udayan-majumder/AidAlert
+```
 
 ```bash
-git clone http://github.com/udayan-majumder/AidAlert
 cd AidAlert
+```
+
+```bash
 npm install
+```
+
+---
+
+## Usage
+
+```bash
+npm start
+```
+
+---
+
+## Testing
+
+```bash
+npm test
+```
+
+---
+
+## Test Credentials
+
+### 👑 Admin
+
+```bash
+Email: admin@gmail.com
+Password: Admin123
+```
+
+### 🏥 NGO
+
+```bash
+Email: ngo@gmail.com
+Password: 1234567890
+```
+
+### 👤 User
+
+```bash
+Email: example@gmail.com
+Password: 12345
+```

@@ -1,29 +1,52 @@
-/* WebKit-based browsers (Chrome, Safari, Edge) */
-::-webkit-scrollbar {
-  width: 5px; /* Thinner scrollbar */
-  height: 5px;
-}
+  /* WebKit-based browsers (Chrome, Safari, Edge) */
+  ::-webkit-scrollbar {
+    width: 5px; /* Thinner scrollbar */
+    height: 5px;
+  }
 
-/* Scrollbar track */
-::-webkit-scrollbar-track {
-  background: transparent; /* Invisible track */
-}
+  /* Scrollbar track */
+  ::-webkit-scrollbar-track {
+    background: transparent; /* Invisible track */
+  }
 
-/* Scrollbar thumb (draggable part) */
-::-webkit-scrollbar-thumb {
-  background: rgba(136, 136, 136, 0.6); /* Subtle semi-transparent color */
-  border-radius: 10px;
-  transition: background 0.3s ease;
-}
+  /* Scrollbar thumb (draggable part) */
+  ::-webkit-scrollbar-thumb {
+    background: rgba(136, 136, 136, 0.6); /* Subtle semi-transparent color */
+    border-radius: 10px;
+    transition: background 0.3s ease;
+  }
 
-/* Hover effect */
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(85, 85, 85, 0.8); /* Slightly darker */
-}
+  /* Hover effect */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(85, 85, 85, 0.8); /* Slightly darker */
+  }
 
-/* Firefox scrollbar */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(136, 136, 136, 0.6) transparent; /* Thumb & track */
-}
+  /* Firefox scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(136, 136, 136, 0.6) transparent; /* Thumb & track */
+  }
+
+  .Threats-Toast{
+  animation: slide-in-out 10s ease-in-out infinite;
+  }
+
+  @keyframes slide-in-out{
+    0%{
+      /* position: absolute; */
+      z-index: -10;
+      transform: translateX(0%);
+    }
+    50%{
+      /* position: absolute; */
+      z-index: -10;
+      transform: translateX(-300%);
+    }
+
+    100%{
+      transform: translateX(0%);
+    }
+    
+  }
+
 

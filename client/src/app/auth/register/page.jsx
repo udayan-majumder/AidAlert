@@ -37,7 +37,7 @@ if((UserEmail && Username)&&(UserPassword === UserRepassword)){
       address:UserAddress
     }
   ).then((res)=>{
-    console.log(res)
+
     if (res.data.message === "User registered successfully") {
       toast.success("User registered successfully");
       setTimeout(() => {

@@ -11,17 +11,17 @@ var instance = new Razorpay({
 const CreateOrder = async(req, res) => {
   try {
     const { Amount, Currency, Receipt } = req.body;
-      console.log(Amount,Currency,Receipt)
+    
     // Options for Razorpay order creation
     const options = {
       amount: Amount,
       currency: Currency,
       receipt: Receipt,
     };
-    console.log(options)
+
     // Wait for the order to be created
     const result = await instance.orders.create(options);
-    console.log(result)
+ 
     // Send the created order in the response
     res.json({ response: result });
   } catch (error) {

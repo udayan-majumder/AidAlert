@@ -9,7 +9,7 @@ if(!token){
 }
 
 const verifyToken = jwt.verify(token,process.env.JWT_SECRET)
-console.log(verifyToken)
+
 if(verifyToken){
     return res.json({ message: "Authorized" ,Userinfo :verifyToken});
 }

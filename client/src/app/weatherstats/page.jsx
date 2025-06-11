@@ -1,11 +1,12 @@
 'use client'
-import {Box,Flex,Text} from '@chakra-ui/react'
+import {Box,Button,Flex,Text} from '@chakra-ui/react'
 import useWeatherstore from "@/userstore/dataStore";
 import { useEffect, useState } from 'react';
 import { Waves, SunMedium, Droplets, Gauge, Wind ,Thermometer, Droplet} from 'lucide-react';
 import { Navbar } from '@/components/ui/navbarComponent/navbarPage';
-
+import { useRouter } from 'next/navigation';
 export default function WeatherStatsComponent(){
+  const router = useRouter()
   const [allThreats,setThreats]=useState([])
 const {
   weatherOrgApi,
@@ -215,7 +216,7 @@ function DetermineAqi(){
           height={["5%"]}
           width={["96%", "100%"]}
           display={["flex"]}
-          justifyContent={["left"]}
+          justifyContent={["space-between"]}
           alignItems={["center"]}
           padding={["0px 10px"]}
         >
@@ -232,6 +233,12 @@ function DetermineAqi(){
             {" "}
             ABOUT US{" "}
           </Text>
+          <Button onClick={()=>{
+            localStorage.clear('token')
+            router.push('/auth')
+          }} bg={"none"} color={"#fff"} fontFamily={"poppins"} fontSize={["12px","16px"]} letterSpacing={1} border={"1px solid rgba(250, 250, 248, 0.38)"}>
+            Logout
+          </Button>
         </Box>
         {/* warning box*/}
         <Box
@@ -256,7 +263,7 @@ function DetermineAqi(){
           >
             {
             allThreats.map((data)=>(
-              <Text>{data}</Text>
+              <Text className='Threats-Toast'>{data}</Text>
             ))
 
             } 

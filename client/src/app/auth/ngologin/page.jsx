@@ -32,7 +32,7 @@ if(UserEmail && UserPassword){
       password: UserPassword,
     }
   ).then((res)=>{
-    
+
     if(res.data.message==='Login successful'){
       toast.success('Login Successfull')
       localStorage.setItem('token',res?.data?.token)
@@ -131,7 +131,7 @@ if(UserEmail && UserPassword){
               height={["45px"]}
               onChange={(e) => {
                 setUserEmail(e.target.value);
-                
+            
               }}
             />
           </InputGroup>{" "}
@@ -151,7 +151,7 @@ if(UserEmail && UserPassword){
             <PasswordInput
               onChange={(e) => {
                 setUserPassWord(e.target.value);
-             
+            
               }}
               placeholder="Password"
               bg="transparent"
@@ -260,7 +260,7 @@ if(UserEmail && UserPassword){
         </Box>
         <Box>
           {" "}
-          <Link href="/auth/register"
+          <Link href="/auth/ngoregister"
             variant="link"
             color="whiteAlpha.800"
             fontSize="sm"

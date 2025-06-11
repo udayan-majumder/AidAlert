@@ -1,5 +1,4 @@
 'use client'
-
 import {
   Box,
   Image,
@@ -8,7 +7,7 @@ import {
   Input,
   Link,
   InputGroup} from "@chakra-ui/react";
-import { Mail, Lock, } from 'lucide-react';
+import { Mail, Lock, User,PhoneCall,BookUser} from 'lucide-react';
 import {
   PasswordInput,
 } from "@/components/ui/password-input";
@@ -16,38 +15,36 @@ import axios from "axios";
 import {useState} from "react";
 import toast,{ Toaster } from "react-hot-toast";
 import { redirect } from "next/navigation";
-import UserDetails from "@/userstore/userinfoStore";
+
 export default function LoginComponent() {
-
+const [Username,setUsername] = useState('')
 const [UserEmail,setUserEmail] = useState('') 
+const [UserPhoneno, setUserPhoneno] = useState("");
+const [UserAddress, setUserAddress] = useState("");
 const [UserPassword,setUserPassWord] = useState('')
-const {setUserInfo,setUserloading} = UserDetails()
+const [UserRepassword,setUserRepassword] = useState('')
 
-async function LoginRequest(){
-if(UserEmail && UserPassword){
-  const UserLoginDetails = await axios.post(
-    `${process.env.NEXT_PUBLIC_SERVERURL}/user/login`,
+async function RegisterRequest(){
+if((UserEmail && Username)&&(UserPassword === UserRepassword)){
+  const UserRegisterDetails = await axios.post(
+    `${process.env.NEXT_PUBLIC_SERVERURL}/user/register`,
     {
+      username:Username,
       email: UserEmail,
       password: UserPassword,
+      phoneno:UserPhoneno,
+      usertype:"Ngo",
+      address:UserAddress
     }
   ).then((res)=>{
-    
-    if(res.data.message==='Login successful'){
-      toast.success('Login Successfull')
-      localStorage.setItem('token',res?.data?.token)
-      setUserInfo(res?.data?.userinfo)
+  
+    if (res.data.message === "User registered successfully") {
+      toast.success("User registered successfully");
       setTimeout(() => {
-        setUserloading(false)
-        return redirect('/')
+        return redirect("/auth/login");
       }, 2000);
-    }
-    else if(res.data.message === 'Invalid credentials'){
-      toast.error('Invalid credentials')
-    }
-    
-    else if(res.data.message === 'no user found'){
-      toast.error('no user found')
+    } else if (res.data.message === "User already exists") {
+      toast.error("User already exists");
     }
     
   })
@@ -82,7 +79,7 @@ if(UserEmail && UserPassword){
       </Box>
 
       <Box
-        height={["70%"]}
+        height={["85%"]}
         width={["90%", "60%"]}
         display={["flex"]}
         flexDirection={["column"]}
@@ -99,12 +96,44 @@ if(UserEmail && UserPassword){
           {" "}
           <Text color={["white"]} fontSize={["25px", "40px"]} fontWeight={600}>
             {" "}
-            Let's get you logged in!{" "}
+            Let's get you signed up!{" "}
           </Text>{" "}
         </Box>
         <Box
           height={["10%"]}
-          width={["70%"]}
+          width={["90%", "70%"]}
+          display={["flex"]}
+          justifyContent={["center"]}
+          alignItems={["center"]}
+        >
+          <InputGroup
+            width={["90%", "60%"]}
+            startElement={<User color={"#000"} />}
+          >
+            <Input
+              placeholder="Organization Name"
+              // _icon={<Mail/>}
+              variant="outline"
+              bg="transparent"
+              color="white"
+              bgColor={[["#A9A9A9"]]}
+              _placeholder={{ color: "whiteAlpha.700" }}
+              _hover={{ borderColor: "whiteAlpha.800" }}
+              _focus={{
+                borderColor: "white",
+                boxShadow: "0 0 0 1px white",
+              }}
+              borderRadius="md"
+              height={["45px"]}
+              onChange={(e) => {
+                setUsername(e.target.value);
+              }}
+            ></Input>
+          </InputGroup>
+        </Box>
+        <Box
+          height={["10%"]}
+          width={["90%", "70%"]}
           display={["flex"]}
           justifyContent={["center"]}
           alignItems={["center"]}
@@ -131,15 +160,79 @@ if(UserEmail && UserPassword){
               height={["45px"]}
               onChange={(e) => {
                 setUserEmail(e.target.value);
-                
               }}
             />
           </InputGroup>{" "}
         </Box>
-
         <Box
           height={["10%"]}
-          width={["70%"]}
+          width={["90%", "70%"]}
+          display={["flex"]}
+          justifyContent={["center"]}
+          alignItems={["center"]}
+        >
+          {" "}
+          <InputGroup
+            startElement={<PhoneCall color="black" />}
+            width={["90%", "60%"]}
+          >
+            <Input
+              placeholder=" Organization Phone No"
+              // _icon={<Mail/>}
+              variant="outline"
+              bg="transparent"
+              color="white"
+              bgColor={[["#A9A9A9"]]}
+              _placeholder={{ color: "whiteAlpha.700" }}
+              _hover={{ borderColor: "whiteAlpha.800" }}
+              _focus={{
+                borderColor: "white",
+                boxShadow: "0 0 0 1px white",
+              }}
+              borderRadius="md"
+              height={["45px"]}
+              onChange={(e) => {
+                setUserPhoneno(e.target.value);
+              }}
+            />
+          </InputGroup>{" "}
+        </Box>
+        <Box
+          height={["10%"]}
+          width={["90%", "70%"]}
+          display={["flex"]}
+          justifyContent={["center"]}
+          alignItems={["center"]}
+        >
+          {" "}
+          <InputGroup
+            startElement={<BookUser color="black" />}
+            width={["90%", "60%"]}
+          >
+            <Input
+              placeholder="Organization Address"
+              // _icon={<Mail/>}
+              variant="outline"
+              bg="transparent"
+              color="white"
+              bgColor={[["#A9A9A9"]]}
+              _placeholder={{ color: "whiteAlpha.700" }}
+              _hover={{ borderColor: "whiteAlpha.800" }}
+              _focus={{
+                borderColor: "white",
+                boxShadow: "0 0 0 1px white",
+              }}
+              borderRadius="md"
+              height={["45px"]}
+              onChange={(e) => {
+                setUserAddress(e.target.value);
+              }}
+            />
+          </InputGroup>{" "}
+        </Box>
+        <Box
+          height={["10%"]}
+          width={["90%", "70%"]}
           display={["flex"]}
           justifyContent={["center"]}
           alignItems={["center"]}
@@ -151,7 +244,38 @@ if(UserEmail && UserPassword){
             <PasswordInput
               onChange={(e) => {
                 setUserPassWord(e.target.value);
-             
+              }}
+              placeholder="Password"
+              bg="transparent"
+              variant="outline"
+              color="white"
+              bgColor={["#A9A9A9"]}
+              borderColor="white"
+              borderRadius="md"
+              height="45px"
+              _placeholder={{ color: "whiteAlpha.700" }}
+              _hover={{ borderColor: "whiteAlpha.800" }}
+              _focus={{
+                borderColor: "white",
+                boxShadow: "0 0 0 1px white",
+              }}
+            />
+          </InputGroup>
+        </Box>
+        <Box
+          height={["10%"]}
+          width={["90%", "70%"]}
+          display={["flex"]}
+          justifyContent={["center"]}
+          alignItems={["center"]}
+        >
+          <InputGroup
+            width={["90%", "60%"]}
+            startElement={<Lock color="black" />}
+          >
+            <PasswordInput
+              onChange={(e) => {
+                setUserRepassword(e.target.value);
               }}
               placeholder="Password"
               bg="transparent"
@@ -200,17 +324,17 @@ if(UserEmail && UserPassword){
             fontWeight="medium"
             fontSize={["20px"]}
             onClick={() => {
-              LoginRequest();
+              RegisterRequest();
             }}
           >
-            Login
+            Sign-Up
           </Button>{" "}
         </Box>
         <Box borderBottom={["1px solid white"]}>
           {" "}
           <Text color={["white"]} fontSize={["15px"]} letterSpacing={2}>
             {" "}
-            Or login with-{" "}
+            Or sign-up with-{" "}
           </Text>{" "}
         </Box>
         <Box>
@@ -255,12 +379,13 @@ if(UserEmail && UserPassword){
           {" "}
           <Text color={["white"]} opacity={0.8} fontSize={["15px"]}>
             {" "}
-            Don't have an account?{" "}
+            have an account?{" "}
           </Text>
         </Box>
         <Box>
           {" "}
-          <Link href="/auth/register"
+          <Link
+            href="/auth/ngologin"
             variant="link"
             color="whiteAlpha.800"
             fontSize="sm"
@@ -269,7 +394,7 @@ if(UserEmail && UserPassword){
               // Your sign-up navigation or logic here
             }}
           >
-            Sign Up Now
+            Login Now
           </Link>{" "}
         </Box>
       </Box>

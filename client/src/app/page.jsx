@@ -436,7 +436,7 @@ export default function Home() {
           >
             <WeatherStatsComponent />
           </Box>
-          <Box height={["95%"]} width={["100%", "70%"]}>
+          <Box height={["100%","95%"]} width={["100%", "70%"]}>
             <Flex
               height={["100%"]}
               width={["100%"]}

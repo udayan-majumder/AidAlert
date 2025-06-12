@@ -212,7 +212,7 @@ function NgoAdminPage() {
   
   useEffect(() => {
     if(!Userloading && UserInfo){
-      setInterval(() => {
+      setTimeout(() => {
         CartProductDetails();
         GetNgoList();
       },2000);

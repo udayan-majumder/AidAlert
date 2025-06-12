@@ -252,7 +252,6 @@ function DetermineAqi(){
             height={["50%"]}
             fontFamily={["poppins"]}
             fontSize={["10px","15px"]}
-            borderBottom={["1px solid #DEDEDD"]}
             fontWeight={500}
             color={["#fff200"]}
             opacity={0.8}

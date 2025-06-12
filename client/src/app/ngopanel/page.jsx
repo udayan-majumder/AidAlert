@@ -37,7 +37,7 @@ function NgoAdminPage() {
   const [SelectedProduct, setSelectedProduct] = useState([]);
   const  [DisasterType,setDisasterType] = useState('')
   const { NgoProductList, setNgoProductList, NgoCartList, setNgoCartList,NgoList,setNgoList} = NgoStore();
-  const  {UserInfo,Userloading} = UserDetails()
+  const  {UserInfo,Userloading,setUserInfo,setUserloading} = UserDetails()
   const  router = useRouter()
 
   const getProductDetails = async () => {
@@ -75,9 +75,9 @@ function NgoAdminPage() {
   const waitForUserId = async () => {
     return new Promise((resolve) => {
       const interval = setInterval(() => {
-        if (UserInfo?.Id) {
+        if (UserInfo.userId) {
           clearInterval(interval);
-          resolve(UserInfo?.Id);
+          resolve(UserInfo.userId);
         }
         else{
           toast.error('relaod once network error',{
@@ -123,7 +123,7 @@ function NgoAdminPage() {
     const res = await axios.post(
       `${process.env.NEXT_PUBLIC_SERVERURL}/ngo/getproducts`,
       {
-        Userid: UserInfo.Id,
+        Userid: UserInfo?.userId,
       }
     );
 
@@ -147,6 +147,7 @@ function NgoAdminPage() {
 
     if (res.data.message === "all products added to cart") {
       toast.success("Donation Successfully");
+      setNgoCartList([])
       setreload(true);
     }
   }
@@ -175,23 +176,48 @@ function NgoAdminPage() {
 
   const GetNgoList = async()=>{
     const res = await axios.get(`${process.env.NEXT_PUBLIC_SERVERURL}/ngo/getngolist`)
-
     if(res?.data?.List.length > 0){
    setNgoList(res?.data?.List)
+
     }
-
+    if (reload) {
+      setreload(false);
+    }
   }
+  
+  async function GetUserDetails() {
+    try {
+      const token = localStorage.getItem("token");
+      const CheckLoginStatus = await axios.post(
+        `${process.env.NEXT_PUBLIC_SERVERURL}/user/userdetails`,
+        {
+          token: token,
+        }
+      );
 
+     if (CheckLoginStatus.data.message === "Authorized") {
+        setUserInfo(CheckLoginStatus?.data?.Userinfo);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      if (Userloading) setUserloading(false);
+    }
+  }
   useEffect(() => {
     getProductDetails();
     GetNgoList()
+    GetUserDetails()
   }, []);
   
   useEffect(() => {
     if(!Userloading && UserInfo){
-      CartProductDetails();
+      setInterval(() => {
+        CartProductDetails();
+        GetNgoList();
+      },2000);
     }
-  }, [Userloading,UserInfo.Id,reload]);
+  }, [Userloading,UserInfo.userId,reload]);
 
 return (
   <Box
@@ -283,6 +309,7 @@ return (
             transform: "scale(1.06)",
           }}
           onClick={() => {
+            setreload(true);
             setClicked(2);
           }}
         >
@@ -307,11 +334,10 @@ return (
           _hover={{
             backgroundColor: "gray.800",
           }}
-          onClick={() => 
-            {
-              localStorage.clear('token')
-              router.push('/auth')
-            }}
+          onClick={() => {
+            localStorage.clear("token");
+            router.push("/auth");
+          }}
         >
           <LogOut size={30} strokeWidth={1.0} />
           <Text fontWeight={100}>Log out</Text>
@@ -331,13 +357,12 @@ return (
     >
       <Box
         height={["8%"]}
-        width={["100%"]}
+        width={["92%"]}
         display={["flex"]}
-        justifyContent={["flex-end", "right"]}
+        justifyContent={["left", "right"]}
         alignItems={["center"]}
-        gap={8}
+        gap={16}
       >
-        <Image src={"/AiD-ALERTblacklogo.png"} height={["70%", "90%"]}/>
         <Button
           display={["block", "none"]}
           onClick={() => {
@@ -348,6 +373,8 @@ return (
         >
           <AlignJustify />
         </Button>
+        <Image src={"/AiD-ALERTblacklogo.png"} height={["70%", "90%"]} />
+
         {Hamburger ? (
           <Box height={["100%"]} width={["100%"]}>
             <Box
@@ -362,6 +389,7 @@ return (
               zIndex={[10]}
               left={0}
               top={0}
+              animation={"SlideIn 0.5s ease-in-out"}
             >
               <Box
                 height={["12%"]}
@@ -379,6 +407,9 @@ return (
                   justifyContent={["right"]}
                 >
                   <Button
+                    color={"#fff"}
+                    bgColor={"#121212"}
+                    borderRadius={10}
                     onClick={() => {
                       setHamburger(false);
                     }}
@@ -412,7 +443,10 @@ return (
                     backgroundColor: "red.500",
                     transform: "scale(1.06)",
                   }}
-                  onClick={() => setClicked(0)}
+                  onClick={() => {
+                    setHamburger(false);
+                    setClicked(0);
+                  }}
                 >
                   <Trophy size={30} strokeWidth={1.0} />
                   <Text fontWeight={100}>View Contributions</Text>
@@ -431,7 +465,10 @@ return (
                     backgroundColor: "red.500",
                     transform: "scale(1.06)",
                   }}
-                  onClick={() => setClicked(1)}
+                  onClick={() => {
+                    setHamburger(false);
+                    setClicked(1);
+                  }}
                 >
                   <ClipboardList size={30} strokeWidth={1.0} />
                   <Text fontWeight={100}>Add Resource</Text>
@@ -450,7 +487,10 @@ return (
                     backgroundColor: "red.500",
                     transform: "scale(1.06)",
                   }}
-                  onClick={() => setClicked(2)}
+                  onClick={() => {
+                    setHamburger(false);
+                    setClicked(2);
+                  }}
                 >
                   <HandHeart size={30} strokeWidth={1.0} />
                   <Text fontWeight={100}>Donate</Text>
@@ -551,7 +591,7 @@ return (
               display={["flex"]}
               justifyContent={["space-around"]}
               alignItems={["center"]}
-              fontSize={["8px","16px"]}
+              fontSize={["8px", "16px"]}
             >
               <Box>Rank</Box>
               <Box>Organization ID</Box>
@@ -567,9 +607,9 @@ return (
               overflowX={"hidden"}
             >
               {NgoList?.length > 0 ? (
-                NgoList?.map((data,index) => (
+                NgoList?.map((data, index) => (
                   <Box
-                    key={data?.userid}  
+                    key={data?.userid}
                     height={["12%"]}
                     width={["100%"]}
                     // bgColor={"teal"}
@@ -594,7 +634,7 @@ return (
                         alignItems={["center"]}
                         fontSize={["12px", "16px"]}
                       >
-                        {index+1}
+                        {index + 1}
                       </Box>
                       <Box
                         width={["25%"]}
@@ -620,9 +660,8 @@ return (
                         display={["flex"]}
                         justifyContent={["center"]}
                         alignItems={["center"]}
-                      
                       >
-                       {data?.total_quantity}
+                        {data?.total_quantity}
                       </Box>
                     </Box>
                   </Box>
@@ -704,6 +743,7 @@ return (
                     width={["100%", "45%"]}
                     bgColor={"red.500"}
                     color={["#fff"]}
+                    
                   >
                     <CirclePlus /> Add
                   </Button>

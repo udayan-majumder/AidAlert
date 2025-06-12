@@ -521,25 +521,34 @@ export default function Home() {
                       fontSize={["30px"]}
                       letterSpacing={1}
                       boxShadow={"0px 0px 20px red"}
-                      onClick={() => {setSosClicked(true)
-                        toast.loading("sos is processing")
+                      onClick={() => {
+                        setSosClicked(true);
+                        toast.loading("sos is processing");
                       }}
                     >
                       SOS
                     </Box>
-                    <Button position={"absolute"}zIndex={101} top={2} right={2} onClick={()=>{
-                      toast.dismiss()
-                      setsosPopup(false)
-                      setDisasterType('')
-                      setSeverity('')
-                      }}><X/></Button>
+                    <Button
+                      position={"absolute"}
+                      zIndex={101}
+                      top={2}
+                      right={2}
+                      onClick={() => {
+                        toast.dismiss();
+                        setsosPopup(false);
+                        setDisasterType("");
+                        setSeverity("");
+                      }}
+                    >
+                      <X />
+                    </Button>
                     {isSosClicked ? (
                       <Button
                         onClick={() => {
-                          toast.dismiss()
-                          setSosClicked(false)
-                          setDisasterType('');
-                          setSeverity('');
+                          toast.dismiss();
+                          setSosClicked(false);
+                          setDisasterType("");
+                          setSeverity("");
                         }}
                         bgColor={"green"}
                         fontFamily={["poppins"]}
@@ -602,6 +611,7 @@ export default function Home() {
                             </Menu.Positioner>
                           </Portal>
                         </Menu.Root>
+                        <Box color={"#fff"}>{DisasterType}</Box>
                         <Menu.Root>
                           <Menu.Trigger asChild>
                             <Button variant="outline" size="sm">
@@ -645,16 +655,28 @@ export default function Home() {
                             </Menu.Positioner>
                           </Portal>
                         </Menu.Root>
+                        <Box color={"#fff"}>{Severity}</Box>
                       </Box>
                     ) : (
                       <Box></Box>
                     )}
-                    {isSosClicked ? <Button bgColor={"red.500"} color={"#fff"} fontFamily={"poppins"} onClick={()=>{
-                    toast.dismiss()
-                      SOSTrigger()
-                      setsosPopup(false)
-                      setSosClicked(false)
-                    }} >Submit</Button> : <Box></Box>}
+                    {isSosClicked ? (
+                      <Button
+                        bgColor={"red.500"}
+                        color={"#fff"}
+                        fontFamily={"poppins"}
+                        onClick={() => {
+                          toast.dismiss();
+                          SOSTrigger();
+                          setsosPopup(false);
+                          setSosClicked(false);
+                        }}
+                      >
+                        Submit
+                      </Button>
+                    ) : (
+                      <Box></Box>
+                    )}
                   </Box>
                 ) : (
                   <Box></Box>

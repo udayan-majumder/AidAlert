@@ -700,7 +700,7 @@ export default function Home() {
                 </Link>
               </Box>
               <Box
-                height={["20%", "30%"]}
+                height={["15%", "30%"]}
                 width={["95%", "90%"]}
                 display={["flex"]}
                 justifyContent={["space-between"]}
@@ -713,7 +713,7 @@ export default function Home() {
                   src={["./mountain.jpg"]}
                   position={["absolute"]}
                   zIndex={[-1]}
-                  height={["160px", "220px"]}
+                  height={["100%", "220px"]}
                   width={["100%"]}
                   opacity={0.5}
                   filter={"blur(1px)"}

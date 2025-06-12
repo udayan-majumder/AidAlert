@@ -102,7 +102,7 @@ Password: Admin123
 ### 🏥 NGO
 
 ```bash
-Email: ngo@gmail.com
+Email: ngoa@gmail.com
 Password: 1234567890
 ```
 
